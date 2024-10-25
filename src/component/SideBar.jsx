@@ -12,16 +12,7 @@ function SideBar({ sideValue, setSideVlaue }) {
         aria-controls="offcanvasSidebar"
         style={{ position: "absolute", top: "10px", left: "10px" }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          className="bi bi-three-dots"
-          viewBox="0 0 16 16"
-        >
-          <path d="M3 9.5A1.5 1.5 0 1 1 3 6.5a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-        </svg>
+        <i className="bi bi-three-dots-vertical"></i> {/* Bootstrap Icon */}
       </button>
 
       {/* Sidebar - Offcanvas for small screens and sticky sidebar for larger screens */}
@@ -49,9 +40,7 @@ function SideBar({ sideValue, setSideVlaue }) {
             href="/"
             className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
           >
-            <svg className="bi pe-none me-2" width="40" height="32">
-              <use xlinkHref="#bootstrap"></use>
-            </svg>
+            <i className="bi bi-bootstrap me-2" style={{ fontSize: "1.5rem" }}></i>
             <span className="fs-4">Sidebar</span>
           </a>
           <hr />
@@ -71,10 +60,7 @@ function SideBar({ sideValue, setSideVlaue }) {
                 }`}
                 aria-current="page"
               >
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlinkHref="#home"></use>
-                </svg>
-                Home
+                <i className="bi bi-house-door me-2"></i> Home
               </a>
             </li>
             <li
@@ -89,10 +75,7 @@ function SideBar({ sideValue, setSideVlaue }) {
                   sideValue === "View Post" ? "active" : "text-white"
                 }`}
               >
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlinkHref="#speedometer2"></use>
-                </svg>
-                View Post
+                <i className="bi bi-speedometer2 me-2"></i> View Post
               </a>
             </li>
           </ul>
