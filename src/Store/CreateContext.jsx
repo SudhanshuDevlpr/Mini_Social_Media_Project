@@ -1,73 +1,62 @@
+// CreateContext.js
 import { createContext, useReducer } from "react";
 
-// Define CONTENT_TO_PRINT first
-const CONTENT_TO_PRINT = [
-  {
-    id: '1',
-    title: 'work', // Fixed typo
-    body:'going to mumbai for working process after complete my work I will give party to evryone',
-    reactions:'2',
-    user_id:'user_20',
-    tags:['working','greak','journey','real_time']
-  },
-  {
-    id: '2',
-    title: 'work', // Fixed typo
-    body:'going to mumbai for working process after complete my work I will give party to evryone',
-    reactions:'2',
-    user_id:'user_20',
-    tags:['working','greak','journey','real_time']
-  },
-  {
-  id: '3',
-  title: 'work', // Fixed typo
-  body:'going to mumbai for working process after complete my work I will give party to evryone',
-  reactions:'2',
-  user_id:'user_20',
-  tags:['working','greak','journey','real_time']
-  },
-  {
-    id: '4',
-    title: 'work', // Fixed typo
-    body:'going to mumbai for working process after complete my work I will give party to evryone',
-    reactions:'2',
-    user_id:'user_20',
-    tags:['working','greak','journey','real_time']
-  }
-];
-
-// Create the Context
+// Create the context
 export const refContext = createContext({
-  paintpost:{},
-  addPost:()=>{},//these three functionallity we want use in our card post functionallity
-  deletePost:()=>{}//so the basic functionallity or all functionallity f any component we need 
-                    //declaire inside createContext for acess by value
-});                    //in create context we pass every functionallity 
-                    //Is always decalire inside createContext after declaring 
-                    //this the we can use in value                   
-                    //the functionallity which used by that component
-const setPostNumberReducer=(CurrentValue,action)=>{
-return CurrentValue;
-}
-// Create the Provider Component
-function MyProvider({ children }) { // Fixed prop name
-  const [paintpost,dispatchpostNumber]=useReducer(setPostNumberReducer,CONTENT_TO_PRINT)
-  //useReduce is a use manage the state first CONTENT_TO_PRINT is default value of that state
-  //because of this we passed and after this refContext has a value CONTENT_TO_PRINT
-  //refCOntext is passed in create context thent it is acssesible by element thorugh value 
-  //use to set the state if it become complex state the we use this hook
-  const addPost=()=>{
+  paintpost: [],
+  addPost: () => {},
+  deletePost: () => {},
+  addInitialPost: () => {},
+});
 
-  };//difinition of addPost which is pass in create context
-  //it work when we do some changes in component like add
-  const deletePost=()=>{
+// Reducer function to manage the posts state
+const setPostNumberReducer = (currentValue, action) => {
+  switch (action.type) {
+    case "DELETE_POST":
+      return currentValue.filter((post) => post.id !== action.payload);
 
-  };//difinition of DeletePost which is pass in create context
-  ////it work when we do some changes in component like delete
+    case "ADD_POST":
+      return [
+        { id: `${currentValue.length + 1}`, ...action.payload }, // Ensure unique ID
+        ...currentValue,
+      ];
+
+    case "APP_ALL_INITIAL_POSTS":
+      return [...action.payload.posts]; // Add all initial posts
+
+    default:
+      return currentValue;
+  }
+};
+
+// Provider component to wrap the app and provide context
+function MyProvider({ children }) {
+  const [paintpost, dispatchPostNumber] = useReducer(setPostNumberReducer, []);
+
+  const addPost = (username, title, reaction, body) => {
+    dispatchPostNumber({
+      type: "ADD_POST",
+      payload: { username, title, reaction, body },
+    });
+  };
+
+  const addInitialPost = (posts) => {
+    dispatchPostNumber({
+      type: "APP_ALL_INITIAL_POSTS",
+      payload: { posts },
+    });
+  };
+
+  const deletePost = (id) => {
+    dispatchPostNumber({ type: "DELETE_POST", payload: id });
+  };
+
   return (
-    <refContext.Provider value={ paintpost}>
-    {children}
-  </refContext.Provider>
+    <refContext.Provider
+      value={{ paintpost, addPost, deletePost, addInitialPost }}
+    >
+      {children}
+    </refContext.Provider>
   );
 }
 
